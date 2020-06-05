@@ -1,0 +1,13 @@
+{
+    "user": [{
+        "email": "debis.descartes@gmail.com",
+        "username": "Debora Oliveira",
+        "password": "123456"
+    }],
+    "email_config": {
+        "host": "",
+        "user": "",
+        "pass": "",
+        "security": ""
+    }
+}
