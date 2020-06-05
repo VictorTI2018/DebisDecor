@@ -21,7 +21,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post("/authenticate", 'LoginController@login');
     });
 
-    $router->group(['prefix' => 'auth:api'], function () use ($router) {
+    $router->group(['middleware' => 'auth:api'], function () use ($router) {
         $router->group(['namespace' => 'Trabalhos'], function () use ($router) {
             $router->group(['prefix' => 'trabalhos'], function () use ($router) {
                 $router->get('/{user_id}', 'TrabalhosController@index');

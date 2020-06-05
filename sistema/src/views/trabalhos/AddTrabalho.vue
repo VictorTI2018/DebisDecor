@@ -16,7 +16,9 @@
       <div class="row mt-3 ml-1">
         <span v-for="(image, key) in model.trabalhos_fotos.fotos" :key="key">
           <div class="col-md-4">
+            
             <img class="card-foto" :ref="'image'" />
+            
           </div>
         </span>
       </div>
@@ -24,12 +26,12 @@
     <div class="container-buttons">
       <div class="col-md-2">
         <button class="btn btn-danger btn-block">
-          <font-awesome-icon icon="trash" />
+          <font-awesome-icon :icon="['fas', 'trash']" />
         </button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-success btn-block">
-          <font-awesome-icon icon="plus" />
+        <button class="btn btn-success btn-block" v-on:click="handleSubmit">
+          <font-awesome-icon :icon="['fas', 'plus']"  />
         </button>
       </div>
     </div>
@@ -46,7 +48,7 @@ export default {
         nome: "",
         descricao: "",
         trabalhos_fotos: {
-          titulo: [],
+          titulo: [{ titulo: ''}],
           fotos: []
         }
       }
@@ -64,6 +66,7 @@ export default {
         let reader = new FileReader();
         reader.onload = e => {
           this.$refs.image[i].src = reader.result;
+          this.model.trabalhos_fotos.fotos[i] = e.target.result
         };
 
         reader.readAsDataURL(this.model.trabalhos_fotos.fotos[i]);
