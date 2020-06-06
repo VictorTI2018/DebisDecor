@@ -46,8 +46,7 @@ export default {
   computed: {
     menu() {
       return [
-        { icon: "hammer", ...this.routerName("trabalhos") },
-        { icon: "user", ...this.routerName("perfil") }
+        { icon: "hammer", ...this.routerName("trabalhos") }
       ];
     }
   },

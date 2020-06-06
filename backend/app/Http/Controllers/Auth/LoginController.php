@@ -75,4 +75,13 @@ class LoginController extends Controller
         $user = Auth::user();
         return response()->json(['user' => $user, 'token' => $token], 200);
     }
+
+    public function logout()
+    {
+        if (Auth::user()) {
+            Auth::logout();
+            return response()->json(["status" => true], 200);
+        }
+        return response()->json(["status" => false], 401);
+    }
 }

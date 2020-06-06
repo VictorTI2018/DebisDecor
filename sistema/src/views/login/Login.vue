@@ -58,8 +58,8 @@ export default {
         this.$http
           .post("/api/authenticate", dados)
           .then(res => {
-            console.log(res.data)
-            const {user, token} = res.data;
+            console.log(res.data);
+            const { user, token } = res.data;
             if (user && token) {
               this.$session.start();
               this.$session.set("user", user);
@@ -69,10 +69,19 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
+            this.flashMessage.warning({
+              title: "ATENÇÃO",
+              message:
+                "Estamos passando por problemas tecnicos, tente novamente em alguns minutos!",
+              time: 3000
+            });
           });
       } else {
-        alert("Por favor preencha todos os dados");
+        this.flashMessage.error({
+          title: "ATENÇÃO",
+          message: "Por favor preencha todos os campos",
+          
+        });
       }
     }
   }
@@ -82,7 +91,7 @@ export default {
 <style>
 .login-container {
   height: 100vh;
-  background:#08182e;
+  background: #08182e;
 }
 
 .login-form {
@@ -101,8 +110,6 @@ export default {
   padding: 15px;
   box-shadow: 4px 0px 20px -10px rgba(0, 0, 0, 0.75);
 }
-
-
 
 .login-form .logo-container {
   position: relative;

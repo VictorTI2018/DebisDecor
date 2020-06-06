@@ -1,5 +1,8 @@
 <template>
-   <router-view></router-view>
+  <span>
+    <FlashMessage :position="'right bottom'"></FlashMessage>
+    <router-view></router-view>
+  </span>
 </template>
 
 <style>
@@ -8,5 +11,4 @@
   margin: 0px;
   box-sizing: border-box;
 }
-
 </style>

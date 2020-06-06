@@ -22,9 +22,15 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->group(['middleware' => 'auth:api'], function () use ($router) {
+        $router->group(['namespace' => 'Auth'], function () use ($router) {
+            $router->group(['prefix' => 'auth'], function () use ($router) {
+                $router->get("/logout", 'LoginController@logout');
+            });
+        });
         $router->group(['namespace' => 'User'], function () use ($router) {
 
             $router->group(['prefix' => 'user'], function () use ($router) {
+
                 $router->get("/{id}", 'UserController@getById');
             });
         });

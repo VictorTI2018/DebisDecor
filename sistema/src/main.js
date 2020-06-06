@@ -6,6 +6,7 @@ import store from './store'
 import './utils/session'
 import './utils/http'
 import './utils/icons'
+import './utils/message'
 
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';

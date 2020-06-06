@@ -2,7 +2,24 @@
   <header class="header">
     <div class="user-info">
       <div class="user-info-login">{{ username }}</div>
-      <img :src="avatar" alt="Avatar" class="user-info-avatar" />
+      <img
+        :src="avatar"
+        alt="Avatar"
+        class="user-info-avatar"
+        id="navbarDropdown"
+        role="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      />
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <router-link to="/perfil">
+          <a class="dropdown-item">Perfil</a>
+        </router-link>
+        <a class="dropdown-item" href="#">Alterar Senha</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" @click="logout">Sair</a>
+      </div>
     </div>
   </header>
 </template>
@@ -10,7 +27,20 @@
 <script>
 export default {
   name: "v-toolbar",
-  props: ["avatar", "username"]
+  props: ["avatar", "username"],
+  methods: {
+    logout() {
+      this.$http.get("/api/auth/logout")
+      .then((res) => {
+        if(res.status) {
+          this.$session.destroy()
+          this.$router.replace("/login")
+        }
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  },
 };
 </script>
 
@@ -56,5 +86,16 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
+}
+
+.dropdown-menu a {
+  color: #000;
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  color: #000;
+  background-color: #ddd;
+  text-decoration: none;
 }
 </style>
