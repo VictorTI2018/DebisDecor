@@ -1,8 +1,9 @@
 <template>
   <div class="container-perfil">
     <div class="col-md-4">
-      <div class="container-avatar-perfil">
-        <img :src="model.avatar" alt="avatar" class="avatar-perfil" />
+      <div class="container-avatar-perfil" @click="clickedInputAvatar">
+         <input type="file" style="display:none" ref="input_avatar" accept="image/*" @change="onFileChange" />
+        <img ref="avatar_perfil" :src="model.avatar" alt="avatar" class="avatar-perfil" />
       </div>
     </div>
     <div class="col-md-8">
@@ -24,7 +25,7 @@
           </button>
         </div>
         <div class="col-md-2">
-          <button class="btn btn-success btn-lg btn-block">
+          <button class="btn btn-success btn-lg btn-block" @click="handleSubmit">
             <font-awesome-icon :icon="['fas', 'plus']" />
           </button>
         </div>
@@ -39,36 +40,58 @@ export default {
   data() {
     return {
       model: {
+        user_id: 0,
         username: "",
         email: "",
-        avatar: ''
+        avatar: ""
       }
     };
   },
   methods: {
+    clickedInputAvatar() {
+      this.$refs.input_avatar.click()
+    },
+    onFileChange(e) {
+      let file = e.target.files || e.dataTransfer.files;
+      if(!file.length) return
+
+      let reader = new FileReader()
+      reader.onloadend = (e) => {
+        this.model.avatar = e.target.result
+      }
+      reader.readAsDataURL(file[0])
+    },
     getById(user_id) {
       this.$http
         .get(`/api/user/${user_id}`)
         .then(res => {
-          this.model = Object.assign(res.data)
+          this.model = Object.assign(res.data);
         })
         .catch(err => {
           console.log(err);
         });
     },
     handleSubmit() {
-        const dados = Object.assign(this.model)
-        if(dados.email && dados.username) {
-
-        } else {
-            alert("Por favor informe todos os dados")
-        }
+      const dados = Object.assign(this.model);
+      if (dados.email && dados.username) {
+        this.$http
+          .put(`/api/user/edit/${this.user_id}`, dados)
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        alert("Por favor informe todos os dados");
+      }
     }
   },
   mounted() {
     const user = this.$session.get("user");
     if (user && user.id > 0) {
-      this.getById(user.id);
+      this.user_id = user.id;
+      this.getById(this.user_id);
     }
   }
 };
@@ -83,6 +106,7 @@ export default {
   height: 100%;
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
 .avatar-perfil {
   border-radius: 4px;

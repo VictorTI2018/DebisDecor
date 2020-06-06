@@ -35,7 +35,15 @@ class UserController extends Controller
     public function update(int $id, Request $request)
     {
         try {
-            $validator = Validator::make($request->all(), []);
+            $validator = Validator::make($request->all(), [
+                'username' => 'required',
+                'email'    => 'required'
+            ]);
+            if ($validator->fails()) {
+                return response()->json(["validator" => true, "message" => $validator->errors()], 404);
+            }
+            $data = $request->all();
+            return response()->json($data, 200);
         } catch (MethodNotFoundException $e) {
             return response()->json(["message" => $e->getMessage()], 404);
         }
