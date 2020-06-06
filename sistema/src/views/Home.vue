@@ -3,12 +3,15 @@
     <v-toolbar :avatar="user.avatar" :username="user.username" />
     <aside class="aside">
       <div class="aside-toolbar">
-        <img src="../assets/debis_logo1.png" alt="Logo" class="aside-toolbar-logo">
+        <img src="../assets/debis_logo1.png" alt="Logo" class="aside-toolbar-logo" />
       </div>
       <div class="topnav">
-        <router-link to="/trabalhos">Trabalhos</router-link>
-        <a href="#news">Contratos</a>
-        <a href="#contact">Templates</a>
+        <router-link v-for="(item, index) in menu" :to="item.to" :key="index">
+          <div class="row-links">
+            <font-awesome-icon class="icon" :icon="['fas', item.icon]" />
+            <span class="text">{{ item.text }}</span>
+          </div>
+        </router-link>
       </div>
     </aside>
     <main class="main">
@@ -30,6 +33,17 @@ export default {
       user: {}
     };
   },
+  methods: {
+    routerName(name) {
+      const route = this.$router.resolve({ name }).route;
+      return { to: route.path, text: route.meta.title };
+    }
+  },
+  computed: {
+    menu() {
+      return [{ icon: "hammer", ...this.routerName("trabalhos") }];
+    }
+  },
   mounted() {
     this.user = this.$session.get("user");
   }
@@ -42,7 +56,7 @@ export default {
   display: grid;
   grid-template-areas: "aside header" "aside main" "aside footer";
   grid-template-rows: 50px 1fr 70px;
-  grid-template-columns: 245px 1fr;
+  grid-template-columns: 220px 1fr;
 }
 
 .aside {
@@ -65,8 +79,6 @@ export default {
   justify-content: center;
 }
 
-
-
 .aside .topnav {
   overflow: hidden;
   display: flex;
@@ -86,8 +98,22 @@ export default {
   background-color: #08182eb7;
 }
 
+.row-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 20px;
+}
 
+.row-links .icon {
+  margin-right: 4px;
+  font-size: 1.3rem;
+}
 
+.row-links .text {
+  margin-left: 10px;
+  font-size: 1.3rem;
+}
 .main {
   grid-area: main;
   height: calc(100vh - 120px);

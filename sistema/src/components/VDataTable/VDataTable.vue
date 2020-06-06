@@ -21,13 +21,14 @@
           <th class="ordemCol"  v-for="(colum, index) in columns" :key="index" v-on:click="ordenaColuna(index)">{{ colum.label }}</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="(item, index) in lista" :key="index">
-          <td v-for="colum in columns" :key="colum.key">{{ item[colum.value] }}</td>
+      <tbody v-if="values.length > 0">
+        <tr v-for="(item, index) in lista" :key="index" >
+          <td  v-for="colum in columns" :key="colum.key">{{ item[colum.value] }}</td>
         </tr>
       </tbody>
     </table>
-    <div class="d-flex justify-content-center align-items-center">
+     <div v-if="!values.length" class="not-data">Não há dados no momento!</div>
+    <div class="d-flex justify-content-center align-items-center" v-if="values.length > 0">
       <button
         class="btn btn-link"
         @click="reload(pagination.last_page_url)"
@@ -140,5 +141,10 @@ export default {
 <style>
 .ordemCol {
   cursor: pointer;
+}
+.not-data {
+  font-size: 1.2rem;
+  text-align: center;
+  font-weight: bold;
 }
 </style>
