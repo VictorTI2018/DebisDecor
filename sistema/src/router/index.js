@@ -3,6 +3,9 @@ import VueRouter from 'vue-router'
 import session from '../utils/session'
 import Home from '../views/Home.vue'
 
+// Perfil Usuario
+import Perfil from '../views/user/Perfil.vue'
+
 // Trabalhos
 import Trabalhos from '../views/trabalhos/Trabalhos.vue'
 import AddTrabalho from '../views/trabalhos/AddTrabalho.vue'
@@ -26,6 +29,12 @@ const routes = [
       {
         path: '/',
         redirect: '/trabalhos'
+      },
+      {
+        path: '/perfil',
+        name: 'perfil',
+        component: Perfil,
+        meta: { title: 'Perfil' }
       },
       {
         path: '/trabalhos',

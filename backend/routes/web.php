@@ -22,6 +22,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     $router->group(['middleware' => 'auth:api'], function () use ($router) {
+        $router->group(['namespace' => 'User'], function () use ($router) {
+
+            $router->group(['prefix' => 'user'], function () use ($router) {
+                $router->get("/{id}", 'UserController@getById');
+            });
+        });
         $router->group(['namespace' => 'Trabalhos'], function () use ($router) {
             $router->group(['prefix' => 'trabalhos'], function () use ($router) {
                 $router->get('/{user_id}', 'TrabalhosController@index');

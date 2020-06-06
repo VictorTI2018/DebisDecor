@@ -6,10 +6,14 @@
         <img src="../assets/debis_logo1.png" alt="Logo" class="aside-toolbar-logo" />
       </div>
       <div class="topnav">
-        <router-link v-for="(item, index) in menu" :to="item.to" :key="index">
+        <router-link replace v-for="(item, index) in menu" :to="item.to" :key="index">
           <div class="row-links">
-            <font-awesome-icon class="icon" :icon="['fas', item.icon]" />
-            <span class="text">{{ item.text }}</span>
+            <div class="col-md-1">
+              <font-awesome-icon class="icon" :icon="['fas', item.icon]" />
+            </div>
+            <div class="col-md-6">
+              <span class="text">{{ item.text }}</span>
+            </div>
           </div>
         </router-link>
       </div>
@@ -41,7 +45,10 @@ export default {
   },
   computed: {
     menu() {
-      return [{ icon: "hammer", ...this.routerName("trabalhos") }];
+      return [
+        { icon: "hammer", ...this.routerName("trabalhos") },
+        { icon: "user", ...this.routerName("perfil") }
+      ];
     }
   },
   mounted() {
@@ -102,7 +109,6 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 20px;
 }
 
 .row-links .icon {
@@ -132,5 +138,19 @@ export default {
     #112136,
     #142439
   );
+}
+
+.form {
+  background-color: #fff;
+  padding: 10px ;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+.container-buttons {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
 }
 </style>

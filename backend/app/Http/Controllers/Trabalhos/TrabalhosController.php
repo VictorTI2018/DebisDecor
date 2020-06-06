@@ -3,18 +3,24 @@
 namespace App\Http\Controllers\Trabalhos;
 
 use App\Http\Controllers\Controller;
+use App\Repository\TrabalhoFoto\TrabalhoFotoRepository;
 use Illuminate\Http\Request;
 use App\Trabalho;
 use Illuminate\Support\Facades\Validator;
+use Prophecy\Exception\Doubler\MethodNotFoundException;
 
 class TrabalhosController extends Controller
 {
 
     protected $trabalho;
 
-    public function __construct(Trabalho $trabalho)
+    /** @var  \App\Repository\TrabalhoFoto\TrabalhoFotoRepository */
+    protected $trabalhoFotoRep;
+
+    public function __construct(Trabalho $trabalho, TrabalhoFotoRepository $trabalhoFotoRep)
     {
         $this->trabalho = $trabalho;
+        $this->trabalhoFotoRep = $trabalhoFotoRep;
     }
 
     /**
@@ -34,8 +40,26 @@ class TrabalhosController extends Controller
 
     public function create(Request $request)
     {
-        $data = $request->all();
+        try {
+            $validator = Validator::make($request->all(), [
+                'nome' => 'required',
+                'descricao' => 'required',
+                'user_id' => 'required|integer'
+            ]);
 
-        return response()->json($data, 200);
+            if ($validator->fails()) {
+                return response()->json([
+                    "validator" => true,
+                    "message" => $validator->errors()
+                ], 404);
+            }
+
+            $data = $request->all();
+
+
+            return response()->json($this->trabalhoFotoRep->insert($data['trabalhos_fotos'], 1));
+        } catch (MethodNotFoundException $e) {
+            return response()->json(["message" => $e->getMessage()], 404);
+        }
     }
 }

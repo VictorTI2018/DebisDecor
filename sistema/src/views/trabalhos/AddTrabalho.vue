@@ -13,24 +13,22 @@
       <div class="col-md-12 mt-2">
         <input type="file" multiple accept="image/*" @change="onFileChange" />
       </div>
-      <div class="row mt-3 ml-1">
+      <div class="row mt-3 ml-1 mb-2">
         <span v-for="(image, key) in model.trabalhos_fotos.fotos" :key="key">
           <div class="col-md-4">
-            
             <img class="card-foto" :ref="'image'" />
-            
           </div>
         </span>
       </div>
     </div>
     <div class="container-buttons">
       <div class="col-md-2">
-        <button class="btn btn-danger btn-block">
+        <button class="btn btn-danger btn-lg btn-block">
           <font-awesome-icon :icon="['fas', 'trash']" />
         </button>
       </div>
       <div class="col-md-2">
-        <button class="btn btn-success btn-block" v-on:click="handleSubmit">
+        <button class="btn btn-success btn-lg btn-block" v-on:click="handleSubmit">
           <font-awesome-icon :icon="['fas', 'plus']"  />
         </button>
       </div>
@@ -64,7 +62,7 @@ export default {
 
       for (let i = 0; i < this.model.trabalhos_fotos.fotos.length; i++) {
         let reader = new FileReader();
-        reader.onload = e => {
+        reader.onloadend = e => {
           this.$refs.image[i].src = reader.result;
           this.model.trabalhos_fotos.fotos[i] = e.target.result
         };
@@ -92,12 +90,7 @@ export default {
 
 
 <style>
-.form {
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
-}
+
 .row-fotos {
   display: flex;
   flex-direction: row;
@@ -114,11 +107,4 @@ export default {
   outline: none;
 }
 
-.container-buttons {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-}
 </style>

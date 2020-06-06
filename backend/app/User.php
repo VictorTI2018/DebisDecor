@@ -46,4 +46,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return [];
     }
+
+    public function trabalhos()
+    {
+        return $this->belongsTo(Trabalho::class, 'id', 'user_id');
+    }
 }
